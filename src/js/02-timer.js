@@ -1,7 +1,6 @@
 import Notiflix from 'notiflix';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-import '../css/common.css';
 
 const options = {
   enableTime: true,
@@ -10,9 +9,6 @@ const options = {
   minuteIncrement: 1,
   disableMobile: true,
   onClose(selectedDates) {
-    // if (options.defaultDate.getTime() > selectedDates[0]) {
-    //   return Notiflix.Notify.failure('Please choose a date in the future');
-    // }
     if (dateChecker(selectedDates[0], options.defaultDate.getTime())) {
       return;
     }

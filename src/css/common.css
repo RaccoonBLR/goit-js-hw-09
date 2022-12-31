@@ -46,7 +46,7 @@ p.go-back {
   gap: 8px;
 }
 
-#datetime-picker {
+input {
   display: inline-block;
   width: 260px;
   height: 35px;
@@ -80,4 +80,36 @@ p.go-back {
 
 .label {
   display: block;
+}
+
+/* .form {
+  align-items: center;
+} */
+
+/* .form > label {
+  display: flex;
+  flex-direction: column;
+} */
+
+.form > button {
+  display: block;
+  margin: 0 auto;
+}
+
+.form > div {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+
+  margin-bottom: 12px;
+}
+
+label > input {
+  display: block;
+
+  margin: auto;
+
+  width: 130px;
+  height: 25px;
 }
