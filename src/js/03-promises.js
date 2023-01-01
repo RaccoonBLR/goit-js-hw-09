@@ -7,9 +7,18 @@ formRef.addEventListener('submit', onSubmit);
 function onSubmit(event) {
   event.preventDefault();
   let { delay, stepDelay, amount } = valueOfFormElements(event);
+  event.currentTarget.reset();
 
   for (let position = 1; position <= amount; position += 1) {
-    createPromise(position, delay);
+    createPromise(position, delay)
+      .then(() => {
+        successfulPromisMessage(
+          `✅ Fulfilled promise ${position} in ${delay} ms`
+        );
+      })
+      .catch(() => {
+        failurePromisMessage(`❌ Rejected promise ${position} in ${delay} ms`);
+      });
 
     delay += stepDelay;
   }
@@ -26,15 +35,7 @@ function createPromise(position, delay) {
         reject({ position, delay });
       }
     }, delay);
-  })
-    .then(() => {
-      successfulPromisMessage(
-        `✅ Fulfilled promise ${position} in ${delay} ms`
-      );
-    })
-    .catch(() => {
-      failurePromisMessage(`❌ Rejected promise ${position} in ${delay} ms`);
-    });
+  });
 }
 
 function valueOfFormElements(event) {

@@ -7,7 +7,6 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  disableMobile: true,
   onClose(selectedDates) {
     if (dateChecker(selectedDates[0], options.defaultDate.getTime())) {
       return;
@@ -51,7 +50,9 @@ class Timer {
     this.intervalId = setInterval(() => {
       const currentDate = Date.now();
 
-      this.isCountdownOver(targetTime, currentDate);
+      if (this.isCountdownOver(targetTime, currentDate)) {
+        return;
+      }
       this.onTick(this.convertMs(targetTime - currentDate));
     }, this.intervalTime);
   }
@@ -69,8 +70,7 @@ class Timer {
       Math.floor(currentDate * multiplier)
     ) {
       this.stop();
-      this.onTick();
-      return;
+      return true;
     }
   }
 
@@ -97,7 +97,7 @@ class Timer {
 }
 const timer = new Timer({ onTick: updateClockface });
 
-function updateClockface({ days = 0, hours = 0, minutes = 0, seconds = 0 }) {
+function updateClockface({ days, hours, minutes, seconds }) {
   refs.days.textContent = this.addLeadingZero(days);
   refs.hours.textContent = this.addLeadingZero(hours);
   refs.minutes.textContent = this.addLeadingZero(minutes);
