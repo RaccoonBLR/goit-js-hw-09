@@ -6,21 +6,23 @@ formRef.addEventListener('submit', onSubmit);
 
 function onSubmit(event) {
   event.preventDefault();
-  let { delay, stepDelay, amount } = valueOfFormElements(event);
+  const { delay, stepDelay, amount } = valueOfFormElements(event);
+  let targetDelay = delay;
+
   event.currentTarget.reset();
 
   for (let position = 1; position <= amount; position += 1) {
-    createPromise(position, delay)
-      .then(() => {
+    createPromise(position, targetDelay)
+      .then(({ position, delay }) => {
         successfulPromisMessage(
           `✅ Fulfilled promise ${position} in ${delay} ms`
         );
       })
-      .catch(() => {
+      .catch(({ position, delay }) => {
         failurePromisMessage(`❌ Rejected promise ${position} in ${delay} ms`);
       });
 
-    delay += stepDelay;
+    targetDelay += stepDelay;
   }
 }
 
