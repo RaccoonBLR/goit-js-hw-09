@@ -14,7 +14,7 @@ const options = {
     }
 
     targetTime = selectedDates[0].getTime();
-    refs.btn.removeAttribute('disabled');
+    refs.btn.disabled = false;
   },
 };
 
@@ -28,10 +28,10 @@ const refs = {
   seconds: document.querySelector('[data-seconds]'),
 };
 
-refs.input.addEventListener('focus', onFocus);
 refs.btn.addEventListener('click', onClick);
-refs.btn.setAttribute('disabled', '');
+refs.btn.disabled = true;
 
+const fp = flatpickr(refs.input, options);
 let targetTime = null;
 
 class Timer {
@@ -44,8 +44,8 @@ class Timer {
   }
 
   start() {
-    refs.btn.setAttribute('disabled', '');
-    refs.input.setAttribute('disabled', '');
+    refs.btn.disabled = true;
+    refs.input.disabled = true;
     Notiflix.Notify.success(this.startMessage);
 
     this.intervalId = setInterval(() => {
@@ -61,7 +61,7 @@ class Timer {
   stop() {
     clearInterval(this.intervalId);
     Notiflix.Notify.info(this.endMessage);
-    refs.input.removeAttribute('disabled');
+    refs.input.disabled = false;
   }
 
   isCountdownOver(targetDate, currentDate) {
@@ -111,15 +111,11 @@ function dateChecker(targetDate, currentDate) {
     Math.floor(targetDate * multiplier) < Math.floor(currentDate * multiplier)
   ) {
     if (!refs.btn.hasAttribute('disabled')) {
-      refs.btn.setAttribute('disabled', '');
+      refs.btn.disabled = true;
     }
     Notiflix.Notify.failure('Please choose a date in the future');
     return true;
   }
-}
-
-function onFocus() {
-  flatpickr(refs.input, options);
 }
 
 function onClick() {
