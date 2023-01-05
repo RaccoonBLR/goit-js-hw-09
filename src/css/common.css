@@ -82,15 +82,6 @@ input {
   display: block;
 }
 
-/* .form {
-  align-items: center;
-} */
-
-/* .form > label {
-  display: flex;
-  flex-direction: column;
-} */
-
 .form > button {
   display: block;
   margin: 0 auto;

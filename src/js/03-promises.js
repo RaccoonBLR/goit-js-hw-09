@@ -13,14 +13,8 @@ function onSubmit(event) {
 
   for (let position = 1; position <= amount; position += 1) {
     createPromise(position, targetDelay)
-      .then(({ position, delay }) => {
-        successfulPromisMessage(
-          `✅ Fulfilled promise ${position} in ${delay} ms`
-        );
-      })
-      .catch(({ position, delay }) => {
-        failurePromisMessage(`❌ Rejected promise ${position} in ${delay} ms`);
-      });
+      .then(successfulPromisMessage)
+      .catch(failurePromisMessage);
 
     targetDelay += stepDelay;
   }
@@ -48,10 +42,14 @@ function valueOfFormElements(event) {
   return { delay, stepDelay, amount };
 }
 
-function failurePromisMessage(message) {
-  return Notiflix.Notify.failure(message);
+function failurePromisMessage({ position, delay }) {
+  return Notiflix.Notify.failure(
+    `❌ Rejected promise ${position} in ${delay} ms`
+  );
 }
 
-function successfulPromisMessage(message) {
-  return Notiflix.Notify.success(message);
+function successfulPromisMessage({ position, delay }) {
+  return Notiflix.Notify.success(
+    `✅ Fulfilled promise ${position} in ${delay} ms`
+  );
 }
